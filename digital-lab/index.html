@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Digital Lab demo | The Digital Dollhouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#211221;--rose:#dc6e86;--pink:#f4a4c0;--blush:#fff4f6}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--plum);color:var(--blush);font-family:Manrope,Helvetica,Arial,sans-serif;font-weight:400;line-height:1.55;overflow-wrap:anywhere}
+header{padding:32px 20px 8px;max-width:1040px;margin:0 auto}
+.tag{display:inline-block;border:1px solid var(--rose);color:var(--pink);padding:6px 14px;border-radius:99px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+h1{font-family:Italiana,serif;font-weight:400;font-size:clamp(34px,6vw,58px);margin:14px 0 6px;line-height:1.1}
+h1 em{font-family:"Playfair Display",serif;color:var(--rose)}
+header p{max-width:640px;margin:0;color:#e9d3dc}
+main{max-width:1040px;margin:0 auto;padding:20px;display:grid;grid-template-columns:1fr 1.2fr;gap:20px}
+@media(max-width:800px){main{grid-template-columns:1fr}}
+.card{background:#2c192d;border:1px solid #4a2c4b;border-radius:16px;padding:20px;min-width:0}
+h2{font-family:"Playfair Display",serif;font-weight:400;font-size:20px;margin:0 0 12px;color:var(--pink)}
+h2.sp{margin-top:20px}
+.lbl,label{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pink);margin:14px 0 6px;font-weight:600}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+legend{padding:0}
+.items{display:grid;gap:8px}
+button,input{font:inherit}
+.item{display:block;width:100%;min-height:56px;text-align:left;background:var(--plum);color:var(--blush);border:1px solid #a47fa0;border-radius:10px;padding:10px 12px;cursor:pointer}
+.item small{display:block;color:#d9bccb}
+.item[aria-pressed=true]{border-color:var(--rose);box-shadow:0 0 0 1px var(--rose)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;min-width:44px;background:var(--plum);color:var(--blush);border:1px solid #a47fa0;border-radius:99px;padding:8px 16px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--rose);color:var(--plum);border-color:var(--rose);font-weight:600}
+input[type=text]{width:100%;min-height:44px;background:var(--plum);color:var(--blush);border:1px solid #a47fa0;border-radius:10px;padding:10px;font-size:16px}
+input::placeholder{color:#c9a9b8}
+button.go{margin-top:18px;width:100%;min-height:48px;background:var(--rose);color:var(--plum);border:0;border-radius:10px;padding:14px;font-weight:600;font-size:16px;cursor:pointer}
+button.go:hover{background:var(--pink)}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.out{min-height:150px;background:var(--blush);color:var(--plum);border-radius:12px;padding:18px;font-family:"Playfair Display",serif;font-size:17px;line-height:1.6}
+.out.empty{color:#6a4a5e;font-family:Manrope,sans-serif;font-style:italic}
+.meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:14px;color:#d9bccb;gap:10px;flex-wrap:wrap}
+.small{min-height:44px;min-width:44px;background:transparent;border:1px solid var(--rose);color:var(--pink);border-radius:8px;padding:8px 16px;cursor:pointer}
+.hist{margin-top:14px;display:grid;gap:8px}
+.hist button{min-height:44px;text-align:left;background:var(--plum);color:var(--blush);border-radius:8px;padding:8px 10px;font-size:14px;cursor:pointer;border:1px solid #a47fa0}
+.hint{color:#d9bccb;font-size:14px}
+.foot{max-width:1040px;margin:0 auto;padding:10px 20px 40px;font-size:14px;color:#d9bccb}
+.foot b{color:var(--pink);font-weight:600}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+<span class="tag">Demo data only</span>
+<h1>The Digital <em>Lab</em></h1>
+<p>A small working example of an AI product-description assistant, the kind of tool the studio builds. Pick a product, set the voice and generate. Everything below is fictional demo data.</p>
+</header>
+<main>
+<section class="card" aria-labelledby="h1s">
+<h2 id="h1s">1. Choose a demo product</h2>
+<div class="items" id="items" role="group" aria-label="Demo products"></div>
+<fieldset><legend class="lbl">Tone</legend><div class="chips" id="tones"></div></fieldset>
+<fieldset><legend class="lbl">Length</legend><div class="chips" id="lens"></div></fieldset>
+<label for="extra">Extra detail to include (optional)</label>
+<input type="text" id="extra" maxlength="80" autocomplete="off" placeholder="e.g. made in small batches">
+<button class="go" id="go" type="button">Generate description</button>
+</section>
+<section class="card" aria-labelledby="h2s">
+<h2 id="h2s">2. Your description</h2>
+<div class="out empty" id="out" role="status" aria-live="polite">Your description appears here.</div>
+<div class="meta"><span id="count"></span><button class="small" id="copy" type="button">Copy text</button></div>
+<h2 class="sp">Recent drafts</h2>
+<div class="hist" id="hist"><span class="hint">Nothing yet. Generate one to start.</span></div>
+</section>
+</main>
+<div class="foot"><b>About this demo.</b> Brand, products and wording are fictional example records created for illustration. No real customers, clients or data are used. The text is built from rules in the page to show the workflow. A real build would connect a language model, your catalogue and an approval step. Software projects from £18,000.</div>
+<script>
+var products=[
+{id:1,name:"Rosewater Glow Serum (demo)",type:"serum",notes:["a lightweight rosewater formula","hyaluronic acid for plumpness","a soft, dewy finish"],use:"two drops each morning"},
+{id:2,name:"Midnight Plum Lip Balm (demo)",type:"balm",notes:["a deep plum tint","shea butter and jojoba oil","all-day softness"],use:"as often as you like"},
+{id:3,name:"Cloud Silk Pillowcase (demo)",type:"pillowcase",notes:["22 momme mulberry silk","a smooth surface for skin and hair","a hidden envelope closure"],use:"every night"}
+];
+var tones={Luxurious:{open:"Indulge in",close:"A quiet everyday luxury."},Playful:{open:"Meet",close:"Small ritual, big smile."},Clear:{open:"Introducing",close:"Simple, effective and easy to use."}};
+var lens=["Short","Medium","Long"];
+var sel={p:products[0],t:"Luxurious",l:"Medium"};var drafts=[];
+function $(i){return document.getElementById(i);}
+function chips(id,list,key){var el=$(id);el.innerHTML="";list.forEach(function(v){var b=document.createElement("button");b.type="button";b.className="chip";b.setAttribute("aria-pressed",sel[key]===v);b.textContent=v;b.onclick=function(){sel[key]=v;render(id+v);};el.appendChild(b);});}
+function render(focusKey){
+var el=$("items");el.innerHTML="";
+products.forEach(function(p){var b=document.createElement("button");b.type="button";b.className="item";b.setAttribute("aria-pressed",sel.p===p);b.appendChild(document.createTextNode(p.name));var s=document.createElement("small");s.textContent=p.notes[0];b.appendChild(s);b.onclick=function(){sel.p=p;render("item"+p.id);};b.dataset.k="item"+p.id;el.appendChild(b);});
+chips("tones",Object.keys(tones),"t");chips("lens",lens,"l");
+document.querySelectorAll("#tones .chip").forEach(function(c){c.dataset.k="tones"+c.textContent;});
+document.querySelectorAll("#lens .chip").forEach(function(c){c.dataset.k="lens"+c.textContent;});
+if(focusKey){var f=document.querySelector('[data-k="'+focusKey+'"]');if(f)f.focus();}}
+function show(txt){var o=$("out");o.className="out";o.textContent=txt;$("count").textContent=txt.split(/\s+/).length+" words";}
+function gen(){
+var p=sel.p,t=tones[sel.t],x=$("extra").value.trim();
+var s=[t.open+" "+p.name.replace(" (demo)","")+": "+p.notes[0]+"."];
+if(sel.l!=="Short"){s.push("It brings "+p.notes[1]+" and "+p.notes[2]+".");}
+if(x){s.push("Plus, "+x.replace(/[.]+$/,"")+".");}
+if(sel.l==="Long"){s.push("Use "+p.use+" and let the routine do the rest. Every detail is chosen so your "+p.type+" earns its place.");}
+s.push(t.close);
+var txt=s.join(" ");show(txt);
+drafts.unshift({n:p.name,tone:sel.t,txt:txt});drafts=drafts.slice(0,4);drawHist();}
+function drawHist(){var h=$("hist");h.innerHTML="";drafts.forEach(function(e){var d=document.createElement("button");d.type="button";d.textContent=e.n+" / "+e.tone;d.onclick=function(){show(e.txt);};h.appendChild(d);});}
+$("go").onclick=gen;
+$("extra").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();gen();}});
+$("copy").onclick=function(){var o=$("out");var b=this;
+if(o.classList.contains("empty")){b.textContent="Generate first";setTimeout(function(){b.textContent="Copy text";},1400);return;}
+var t=o.textContent;
+function done(m){b.textContent=m;setTimeout(function(){b.textContent="Copy text";},1400);}
+function fb(){try{var a=document.createElement("textarea");a.value=t;a.setAttribute("readonly","");a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();var r=document.execCommand("copy");document.body.removeChild(a);done(r?"Copied":"Copy not available");}catch(e){done("Copy not available");}}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("Copied");},fb);}else{fb();}};
+render();
+</script>
+</body>
+</html>

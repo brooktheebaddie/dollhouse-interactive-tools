@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Style explorer | The Digital Dollhouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#211221;--p2:#2f1a30;--rose:#dc6e86;--pink:#f4a4c0;--blush:#fff4f6}
+*{box-sizing:border-box}body{margin:0;background:var(--plum);color:var(--blush);font-family:Manrope,Helvetica,Arial,sans-serif;line-height:1.55}
+.w{max-width:900px;margin:0 auto;padding:24px 16px 48px}
+h1,h2{font-family:Italiana,Georgia,serif;font-weight:400;margin:0 0 .3em}h1{font-size:clamp(2rem,8vw,3rem);text-transform:uppercase;line-height:1.05}h2{font-size:1.6rem;color:var(--pink)}
+.tag{display:inline-block;border:1px solid var(--rose);color:var(--pink);border-radius:99px;padding:4px 14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.tabs button,.d button{font:inherit;min-height:48px;padding:8px 18px;border-radius:99px;border:1px solid var(--rose);background:transparent;color:var(--blush);cursor:pointer}
+.tabs button[aria-pressed=true],.d button[aria-pressed=true]{background:var(--rose);color:var(--plum);font-weight:600}
+.d{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0 18px}
+.d button{border-radius:12px;text-align:left;padding:12px 14px}
+.card{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:var(--p2);border:1px solid rgba(244,164,192,.35);border-radius:16px;padding:18px}
+@media(max-width:640px){.card{grid-template-columns:1fr}}
+.sw{border-radius:12px;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;position:relative;overflow:hidden}
+.sw .big{font-family:Italiana,Georgia,serif;font-size:2rem;line-height:1.05}
+.sw .sm{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.pal{display:flex;gap:6px;margin:10px 0}.pal i{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.3)}
+dl{margin:0}dt{color:var(--pink);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-top:10px}dd{margin:2px 0 0}
+a.btn{display:inline-block;margin-top:16px;border-radius:99px;background:var(--rose);color:var(--plum);padding:12px 24px;font-weight:600;text-decoration:none;min-height:48px}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}.note{font-size:.85rem;opacity:.85}
+</style></head><body><main class="w">
+<span class="tag">Studio concept</span><h1>Style explorer</h1>
+<p>Pick a sector and a direction to see how an ad could look and sound. Every direction here is a concept written by the studio. None is client work.</p>
+<div class="tabs" id="sec" role="group" aria-label="Sector"></div>
+<div class="d" id="dirs" role="group" aria-label="Direction"></div>
+<div class="card" id="card" aria-live="polite"></div>
+<a class="btn" id="cta" href="https://www.thedigitaldollhouse.co.uk/services-1" target="_top" rel="noopener">Start a project in this style</a>
+<p class="note">Concept only. Colours and lines are sample directions to start a conversation, not finished adverts and not results from any client. Final direction is agreed in your brief and proposal.</p>
+</main>
+<script>
+var D={
+"Beauty":[
+{n:"Soft glow",bg:["#f4a4c0","#fff4f6"],fg:"#211221",pal:["#f4a4c0","#fff4f6","#dc6e86","#211221"],line:"Skin first. Light does the talking.",look:"Close, soft-lit product and texture. Slow movement. Warm highlights.",type:"Italiana headline, short caption beneath.",format:"Vertical 15 second social ad; square still set.",tone:"Calm and quietly confident."},
+{n:"Midnight ritual",bg:["#211221","#5a2a4c"],fg:"#fff4f6",pal:["#211221","#5a2a4c","#dc6e86","#f4a4c0"],line:"The evening, made yours.",look:"Dark set, one rose light source, glossy surfaces.",type:"Large serif line on a dark frame.",format:"Hero film with social cuts.",tone:"Luxurious and unhurried."},
+{n:"Clean and clinical",bg:["#fff4f6","#ffffff"],fg:"#211221",pal:["#fff4f6","#ffffff","#dc6e86","#211221"],line:"Simple routine. Clear reasons.",look:"White space, precise product shots, minimal motion.",type:"Plain sans captions with clear facts.",format:"Product image set and short explainer.",tone:"Clear and honest. No claims we cannot support."}],
+"Fashion":[
+{n:"Editorial",bg:["#211221","#dc6e86"],fg:"#fff4f6",pal:["#211221","#dc6e86","#f4a4c0","#fff4f6"],line:"The collection, in motion.",look:"High-contrast frames, long shadows, dramatic crops.",type:"Oversized serif, tight tracking.",format:"Campaign film and still lookbook.",tone:"Bold and assured."},
+{n:"Street energy",bg:["#dc6e86","#f4a4c0"],fg:"#211221",pal:["#dc6e86","#f4a4c0","#211221","#fff4f6"],line:"Wear it loud.",look:"Fast cuts, hard flash, saturated colour.",type:"Stacked bold type over footage.",format:"Vertical Reels and Stories.",tone:"Playful and quick."},
+{n:"Quiet luxury",bg:["#fff4f6","#f4a4c0"],fg:"#211221",pal:["#fff4f6","#f4a4c0","#211221","#dc6e86"],line:"Made to last.",look:"Neutral set, slow camera, close fabric detail.",type:"Small refined serif caption.",format:"Hero film, square and vertical cuts.",tone:"Measured and elegant."}],
+"Sports and wellness":[
+{n:"Energy",bg:["#dc6e86","#211221"],fg:"#fff4f6",pal:["#dc6e86","#211221","#f4a4c0","#fff4f6"],line:"Move like you mean it.",look:"Dynamic angles, motion blur, rose-lit gym sets.",type:"Strong condensed-feel headline.",format:"Short vertical ads, content pack.",tone:"Driven but friendly."},
+{n:"Calm and strong",bg:["#f4a4c0","#fff4f6"],fg:"#211221",pal:["#f4a4c0","#fff4f6","#dc6e86","#211221"],line:"Strength starts with rest.",look:"Soft studio light, steady camera, natural movement.",type:"Light serif with plenty of space.",format:"Stories and a hero film.",tone:"Reassuring. No medical claims."},
+{n:"Community",bg:["#2f1a30","#dc6e86"],fg:"#fff4f6",pal:["#2f1a30","#dc6e86","#f4a4c0","#fff4f6"],line:"Better together.",look:"Group moments, warm tones, handheld feel.",type:"Friendly captions over footage.",format:"Event promo and social cuts.",tone:"Warm and inclusive."}]};
+var $=function(i){return document.getElementById(i)},S=Object.keys(D),s=0,d=0;
+function draw(){
+ $("sec").innerHTML=S.map(function(x,i){return '<button type="button" aria-pressed="'+(i===s)+'">'+x+'</button>'}).join("");
+ [].forEach.call($("sec").children,function(b,i){b.onclick=function(){s=i;d=0;draw()}});
+ var L=D[S[s]];
+ $("dirs").innerHTML=L.map(function(x,i){return '<button type="button" aria-pressed="'+(i===d)+'">'+x.n+'</button>'}).join("");
+ [].forEach.call($("dirs").children,function(b,i){b.onclick=function(){d=i;draw()}});
+ var x=L[d];
+ $("card").innerHTML='<div class="sw" style="background:linear-gradient(145deg,'+x.bg[0]+','+x.bg[1]+');color:'+x.fg+'"><span class="sm">Concept / '+S[s]+'</span><span class="big">'+x.line+'</span></div>'+
+ '<div><h2>'+x.n+'</h2><div class="pal" aria-label="Palette">'+x.pal.map(function(c){return '<i style="background:'+c+'"></i>'}).join("")+'</div><dl><dt>Look</dt><dd>'+x.look+'</dd><dt>Type</dt><dd>'+x.type+'</dd><dt>Formats</dt><dd>'+x.format+'</dd><dt>Tone</dt><dd>'+x.tone+'</dd></dl></div>';
+}
+draw();
+</script></body></html>
