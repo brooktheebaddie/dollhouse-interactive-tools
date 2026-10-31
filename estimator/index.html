@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build your project | The Digital Dollhouse</title>
+<style>
+:root{--plum:#211221;--plum2:#2f1a30;--pink:#DC6E86;--light:#f4a4c0;--blush:#fff4f7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plum);color:var(--blush);font-family:Manrope,"Helvetica Neue",Arial,sans-serif;font-weight:300;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+h1,h2,h3{font-family:Italiana,"Playfair Display",Georgia,serif;font-weight:400;letter-spacing:.02em;margin:0 0 .4em}
+h1{font-size:clamp(2rem,8vw,3.2rem);line-height:1.05;text-transform:uppercase}
+h2{font-size:1.5rem;color:var(--light)}
+p{margin:0 0 1em}
+.lead{font-size:1.05rem;opacity:.9}
+fieldset{border:0;padding:0;margin:0 0 28px}
+legend{font-family:Italiana,Georgia,serif;font-size:1.5rem;color:var(--light);padding:0;margin-bottom:6px}
+.hint{font-size:.9rem;opacity:.8;margin-bottom:12px}
+.opt{display:block;position:relative;margin:0 0 10px}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt span{display:block;border:1px solid rgba(244,164,192,.45);border-radius:10px;padding:14px 16px 14px 48px;background:var(--plum2);position:relative;min-height:48px}
+.opt span:before{content:"";position:absolute;left:16px;top:17px;width:18px;height:18px;border:2px solid var(--pink);border-radius:4px}
+.opt.r span:before{border-radius:50%}
+.opt input:checked+span{border-color:var(--pink);background:#3a2040}
+.opt input:checked+span:before{background:var(--pink);box-shadow:inset 0 0 0 3px var(--plum2)}
+.opt input:focus-visible+span{outline:3px solid var(--light);outline-offset:2px}
+.opt b{font-weight:600}.opt small{display:block;opacity:.75;font-size:.85rem}
+textarea,input[type=text]{width:100%;font:inherit;color:var(--blush);background:var(--plum2);border:1px solid rgba(244,164,192,.45);border-radius:10px;padding:12px;min-height:48px}
+textarea{min-height:110px}
+textarea:focus,input[type=text]:focus,.btn:focus-visible,a:focus-visible{outline:3px solid var(--light);outline-offset:2px}
+label.t{display:block;margin-bottom:6px}
+.btn{display:inline-block;font:inherit;font-weight:600;text-decoration:none;cursor:pointer;border:1px solid var(--pink);background:var(--pink);color:var(--plum);border-radius:999px;padding:13px 24px;min-height:48px;margin:0 8px 10px 0}
+.btn.ghost{background:transparent;color:var(--blush)}
+.result{border:1px solid var(--pink);border-radius:14px;padding:20px 18px;background:var(--plum2)}
+.result ul{padding-left:1.1em;margin:0 0 1em}
+.total{font-family:Italiana,Georgia,serif;font-size:2.2rem;color:var(--light);margin:.2em 0}
+.note{font-size:.85rem;opacity:.85}
+pre{white-space:pre-wrap;background:var(--plum);border:1px solid rgba(244,164,192,.3);border-radius:10px;padding:12px;font:inherit;font-size:.9rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="wrap" id="app">
+<p class="note" style="letter-spacing:.15em;text-transform:uppercase">The Digital Dollhouse</p>
+<h1>Build your project.</h1>
+<p class="lead">Choose what you want to make. We will point you to the right services and show an indicative starting budget. Then send the brief to us in one go.</p>
+
+<form id="f" novalidate>
+<fieldset><legend>1. What do you want to make?</legend>
+<p class="hint" id="h1">Choose as many as you like.</p>
+<div id="items" role="group" aria-describedby="h1"></div></fieldset>
+
+<fieldset><legend>2. Roughly what is your budget?</legend>
+<div id="budget"></div></fieldset>
+
+<fieldset><legend>3. When do you need it?</legend>
+<div id="time"></div></fieldset>
+
+<fieldset><legend>4. Creative requirements</legend>
+<label class="t" for="brand">Brand or company</label>
+<input type="text" id="brand" autocomplete="organization">
+<label class="t" for="req" style="margin-top:14px">Tell us about the idea, look and feel, formats, anything we should know</label>
+<textarea id="req"></textarea></fieldset>
+
+<button type="button" class="btn" id="go">Show my indicative budget</button>
+</form>
+
+<section id="out" class="result" hidden tabindex="-1" aria-live="polite" style="margin-top:28px">
+<h2>Your starting point</h2>
+<div id="recs"></div>
+<p class="note">These are indicative "from" guides in pounds, excluding VAT. They are not a quote. Every project is shaped around your idea, and we confirm a clear quote after reading your brief.</p>
+<h2>Your brief</h2>
+<pre id="brief"></pre>
+<p><button type="button" class="btn" id="copy">Copy brief</button>
+<a class="btn ghost" id="open" href="https://www.thedigitaldollhouse.co.uk/services-1" target="_top" rel="noopener">Open the Start a Project form</a></p>
+<p class="note" id="msg" role="status"></p>
+<p class="note">Paste the brief into the "Tell us about your project and timing" box and pick what you need. We reply with next steps. Prices shown ex VAT. Scope, usage rights, deliverables, payment terms and exclusions are set out in your quote.</p>
+</section>
+</main>
+
+<script>
+(function(){
+var ITEMS=[
+{id:"adv",n:"Single AI social advert",d:"One concept, one finished ad",k:"one",p:650,t:"Confirmed in your quote",s:"Single AI social advert"},
+{id:"img",n:"AI product imagery set",d:"A set of finished AI images for your product",k:"one",p:1100,t:"Confirmed in your quote",s:"AI product imagery set"},
+{id:"social",n:"AI content pack",d:"A batch of short social films or edits",k:"one",p:2750,t:"Confirmed in your quote",s:"AI content pack"},
+{id:"film",n:"AI hero film",d:"Your brand moment, with cuts for social",k:"one",p:4500,t:"Confirmed in your quote",s:"AI hero film"},
+{id:"app",n:"Software project",d:"Custom software, scoped with you",k:"one",p:18000,t:"Confirmed in your quote",s:"Software project"},
+{id:"care",n:"Website care plan",d:"Ongoing care for your site: Care 99, 199 or 349 a month",k:"month",p:99,t:"Monthly",s:"Website care plan (from \u00a399 a month)"},
+{id:"brand",n:"Brand identity",d:"Quoted to fit",k:"quote",t:"Confirmed in your quote",s:"Brand identity (quoted to fit)"},
+{id:"web",n:"Website or online store",d:"Quoted to fit",k:"quote",t:"Confirmed in your quote",s:"Website or online store (quoted to fit)"},
+{id:"ai",n:"AI assistant or automation",d:"Quoted to fit",k:"quote",t:"Confirmed in your quote",s:"AI assistants and automations (quoted to fit)"}
+];
+var BUDGET=[["u2","Under \u00a32,000",0],["2-5","\u00a32,000 to \u00a35,000",1],["5-10","\u00a35,000 to \u00a310,000",2],["10-20","\u00a310,000 to \u00a320,000",3],["20p","\u00a320,000 or more",4],["ns","Not sure yet",-1]];
+var CAP={0:2000,1:5000,2:10000,3:20000,4:Infinity};
+var TIME=[["Within 2 weeks"],["2 to 4 weeks"],["1 to 2 months"],["Flexible"]];
+function $(i){return document.getElementById(i)}
+function gbp(n){return "\u00a3"+n.toLocaleString("en-GB")}
+function opt(type,name,id,label,sub,val){return '<label class="opt'+(type=="radio"?" r":"")+'"><input type="'+type+'" name="'+name+'" value="'+val+'" id="'+id+'"><span><b>'+label+'</b>'+(sub?'<small>'+sub+'</small>':'')+'</span></label>'}
+function priceTag(i){return i.k=="quote"?"Quoted to fit":(i.k=="disc"?"Discovery from "+gbp(i.p):"From "+gbp(i.p)+(i.k=="month"?" a month":""))}
+$("items").innerHTML=ITEMS.map(function(i){return opt("checkbox","it","it_"+i.id,i.n,i.d+" ("+priceTag(i)+")",i.id)}).join("");
+$("budget").innerHTML=BUDGET.map(function(b,x){return opt("radio","bg","bg"+x,b[1],"",x)}).join("");
+$("time").innerHTML=TIME.map(function(t,x){return opt("radio","tm","tm"+x,t[0],"",x)}).join("");
+var brief="";
+$("go").onclick=function(){
+ var sel=ITEMS.filter(function(i){return $("it_"+i.id).checked});
+ var out=$("out");
+ if(!sel.length){out.hidden=false;$("recs").innerHTML='<p>Choose at least one thing you want to make, and we will show a starting point.</p>';$("brief").textContent="";out.focus();return}
+ var one=0,mo=0,disc=0,quoted=[];
+ sel.forEach(function(i){if(i.k=="one")one+=i.p;else if(i.k=="month")mo+=i.p;else if(i.k=="disc")disc+=i.p;else quoted.push(i.n)});
+ var start=one+disc;
+ var h='<ul>'+sel.map(function(i){return '<li><b>'+i.n+'</b>: '+priceTag(i)+'. Typical timing: '+i.t+'.</li>'}).join('')+'</ul>';
+ if(start>0)h+='<p class="note">Indicative starting budget for the one-off work</p><p class="total">From '+gbp(start)+'</p>';
+ if(mo>0)h+='<p class="note">Plus monthly partnership</p><p class="total">From '+gbp(mo)+' a month</p>';
+ if(quoted.length)h+='<p>'+quoted.join(" and ")+' '+(quoted.length>1?'are':'is')+' quoted to fit, so no figure is added above.</p>';
+ var bi=document.querySelector('input[name=bg]:checked'),bv=bi?BUDGET[+bi.value]:null;
+ var ti=document.querySelector('input[name=tm]:checked'),tv=ti?TIME[+ti.value][0]:"Not stated";
+ if(bv&&CAP[bv[2]]!==undefined&&start>CAP[bv[2]])h+='<p>Your chosen budget sits below this starting point. We can often phase the work, or begin with one piece. Tell us in the brief and we will suggest options.</p>';
+ if(ti&&+ti.value==0)h+='<p>Tight deadlines may be possible. Any rush charge is agreed in your quote first.</p>';
+ $("recs").innerHTML=h;
+ var b=["BUILD YOUR PROJECT BRIEF"];
+ b.push("Brand or company: "+($("brand").value.trim()||"Not given"));
+ b.push("I need: "+sel.map(function(i){return i.s}).join("; "));
+ b.push("Budget: "+(bv?bv[1]:"Not stated"));
+ b.push("Timescale: "+tv);
+ b.push("Indicative starting point from the builder: "+(start>0?"from "+gbp(start):"quoted to fit")+(mo>0?" plus from "+gbp(mo)+" a month":"")+" (ex VAT, a guide and not a quote)");
+ b.push("Creative requirements: "+($("req").value.trim()||"Not given"));
+ brief=b.join("\n");
+ $("brief").textContent=brief;
+ out.hidden=false;out.focus();
+ try{window.parent.postMessage({type:"dd-quote-brief",brief:brief},"*")}catch(e){}
+};
+$("copy").onclick=function(){
+ var m=$("msg");
+ function ok(){m.textContent="Brief copied. Paste it into the Start a Project form."}
+ function no(){var r=document.createRange();r.selectNodeContents($("brief"));var s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent="Brief selected. Copy it and paste it into the Start a Project form."}
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(brief).then(ok,no);else no();
+};
+})();
+</script>
+</body>
+</html>
