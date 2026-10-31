@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>See exactly what you receive | The Digital Dollhouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#211221;--p2:#2f1a30;--rose:#dc6e86;--pink:#f4a4c0;--blush:#fff4f6}
+*{box-sizing:border-box}body{margin:0;background:var(--plum);color:var(--blush);font-family:Manrope,Helvetica,Arial,sans-serif;line-height:1.55}
+.w{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+h1,h2{font-family:Italiana,Georgia,serif;font-weight:400;margin:0 0 .3em}h1{font-size:clamp(2rem,8vw,3rem);text-transform:uppercase;line-height:1.05}h2{font-size:1.6rem;color:var(--pink)}
+.tag{display:inline-block;border:1px solid var(--rose);color:var(--pink);border-radius:99px;padding:4px 14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.tabs button{font:inherit;min-height:48px;padding:8px 18px;border-radius:99px;border:1px solid var(--rose);background:transparent;color:var(--blush);cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--rose);color:var(--plum);font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.grid img{width:100%;height:auto;border-radius:12px;border:1px solid rgba(244,164,192,.35);background:#150b15}
+ul{list-style:none;padding:0;margin:0}
+li button{width:100%;text-align:left;font:inherit;color:var(--blush);background:var(--p2);border:1px solid rgba(244,164,192,.4);border-radius:12px;padding:12px 14px;min-height:48px;margin-bottom:8px;cursor:pointer}
+li button[aria-expanded=true]{border-color:var(--rose)}
+li b{font-weight:600}li .d{display:none;margin-top:6px;font-size:.92rem;opacity:.9}li button[aria-expanded=true] .d{display:block}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.note{font-size:.85rem;opacity:.9}a.btn{display:inline-block;margin-top:14px;border-radius:99px;background:var(--rose);color:var(--plum);padding:12px 24px;font-weight:600;text-decoration:none;min-height:48px}
+</style></head><body><main class="w">
+<span class="tag">Illustrative examples</span><h1>See exactly what you receive</h1>
+<p>Before you commit, see what a package can include. Tap an item to read what it means. These are illustrations, not client work.</p>
+<div class="tabs" id="tabs" role="group" aria-label="Choose a pack"></div>
+<div class="grid"><div><img id="im" alt=""></div><div><h2 id="hd"></h2><ul id="ls"></ul></div></div>
+<p class="note">Illustrative example. Not a real client project. Not every package includes everything. Actual deliverables are confirmed in each proposal.</p>
+<p>Tell us what you need and we will set out exactly what is included in your proposal.</p>
+<a class="btn" href="https://www.thedigitaldollhouse.co.uk/services-1" target="_top" rel="noopener">Start a project</a>
+</main>
+<script>
+var A={"ai-campaign-pack-illustrative.png":"https://links.wixel.com/link/wfUSIAlCe8/raw","app-pack-illustrative.png":"https://links.wixel.com/link/kZlzo66v3C/raw"};
+var K=[
+{n:"AI campaign pack",img:"ai-campaign-pack-illustrative.png",alt:"Illustrative example of an AI campaign deliverable pack showing storyboards, approved key frames, social cuts and export formats.",hd:"What an AI campaign pack can include",
+it:[["Storyboards","The story laid out frame by frame before anything is made."],["Approved key frames","The finished stills you sign off before production moves on."],["Social cuts","Short versions cut for vertical and square feeds."],["Export formats","Master film, social cuts, captions file and still frames."]]},
+{n:"App pack",img:"app-pack-illustrative.png",alt:"Illustrative example of an app deliverable pack showing wireframes, specification, testing and handover documentation.",hd:"What an app pack can include",
+it:[["Wireframes","Simple screens that show how the app works before design or build."],["Specification","A written document of what the app does and how."],["Testing","A checklist run before anything is handed over."],["Handover documentation","A guide so your team can run and update it."]]}];
+var $=function(i){return document.getElementById(i)},c=0;
+function draw(){
+ $("tabs").innerHTML=K.map(function(k,i){return '<button type="button" aria-pressed="'+(i===c)+'">'+k.n+'</button>'}).join("");
+ [].forEach.call($("tabs").children,function(b,i){b.onclick=function(){c=i;draw()}});
+ var k=K[c];$("im").src=A[k.img];$("im").alt=k.alt;$("hd").textContent=k.hd;
+ $("ls").innerHTML=k.it.map(function(x,i){return '<li><button type="button" aria-expanded="'+(i===0)+'"><b>'+x[0]+'</b><span class="d">'+x[1]+'</span></button></li>'}).join("");
+ [].forEach.call($("ls").querySelectorAll("button"),function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")!=="true")}});
+}
+draw();
+</script></body></html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Latest from the studio | The Digital Dollhouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#211221;--p2:#2f1a30;--rose:#dc6e86;--pink:#f4a4c0;--blush:#fff4f6}
+*{box-sizing:border-box}body{margin:0;background:var(--plum);color:var(--blush);font-family:Manrope,Helvetica,Arial,sans-serif;line-height:1.5}
+.w{max-width:1000px;margin:0 auto;padding:24px 16px 40px}
+h1{font-family:Italiana,Georgia,serif;font-weight:400;font-size:clamp(1.8rem,7vw,2.6rem);margin:.2em 0;text-transform:uppercase}
+.tag{display:inline-block;border:1px solid var(--rose);color:var(--pink);border-radius:99px;padding:4px 14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.strip{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 0;-webkit-overflow-scrolling:touch}
+.c{flex:0 0 min(280px,80%);scroll-snap-align:start;background:var(--p2);border:1px solid rgba(244,164,192,.35);border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;display:block}
+.c .im{aspect-ratio:1/1;background:linear-gradient(145deg,#3a2040,#dc6e86);display:flex;align-items:center;justify-content:center;color:var(--plum);font-family:Italiana,serif;font-size:1.3rem;text-align:center;padding:12px}
+.c img{width:100%;height:100%;object-fit:cover;display:block}
+.c .b{padding:12px 14px}.c .s{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--pink)}
+.c p{margin:.3em 0 0;font-size:.92rem}
+.links a{display:inline-block;margin:6px 10px 0 0;color:var(--pink);min-height:44px;padding-top:10px}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}.note{font-size:.85rem;opacity:.85}
+</style></head><body><main class="w">
+<span class="tag" id="mode">Design draft</span><h1>Latest from the studio</h1>
+<div class="strip" id="strip" role="list"></div>
+<div class="links"><a href="https://www.instagram.com/the_digital_dollhouse/" target="_blank" rel="noopener">Follow @the_digital_dollhouse on Instagram</a><a href="https://www.linkedin.com/company/the-digital-dollhouse/" target="_blank" rel="noopener">Follow us on LinkedIn</a></div>
+<p class="note" id="n"></p>
+</main>
+<script>
+// Live feeds need credentials, which must never sit in a public page.
+// To go live: a server-side job writes the latest posts to a public JSON file, then set FEED_URL.
+// Shape: [{"network":"Instagram","text":"caption","image":"https://...","url":"https://..."}]
+var FEED_URL="";
+var DRAFT=[
+{network:"Instagram",text:"Latest Instagram post appears here."},{network:"LinkedIn",text:"Latest LinkedIn post appears here."},
+{network:"Instagram",text:"Second most recent post appears here."},{network:"LinkedIn",text:"Second most recent post appears here."}];
+function esc(s){var d=document.createElement("div");d.textContent=s||"";return d.innerHTML}
+function draw(L,live){
+ document.getElementById("strip").innerHTML=L.slice(0,8).map(function(p){
+  var t=p.url?"a":"div",h=p.url?' href="'+esc(p.url)+'" target="_blank" rel="noopener"':"";
+  return '<'+t+' class="c" role="listitem"'+h+'><div class="im">'+(p.image?'<img src="'+esc(p.image)+'" alt="" loading="lazy">':'Placeholder')+'</div><div class="b"><span class="s">'+esc(p.network)+'</span><p>'+esc((p.text||"").slice(0,140))+'</p></div></'+t+'>'}).join("");
+ document.getElementById("mode").textContent=live?"Live":"Design draft";
+ document.getElementById("n").textContent=live?"Latest posts from our own channels.":"Design draft with placeholder cards. No post is shown until a live feed is connected. Nothing here is real content yet."}
+draw(DRAFT,false);
+if(FEED_URL)fetch(FEED_URL).then(function(r){return r.json()}).then(function(d){if(d&&d.length)draw(d,true)}).catch(function(){});
+</script></body></html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>From brief to screen | The Digital Dollhouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#211221;--rose:#dc6e86;--pink:#f4a4c0;--blush:#fff4f6}
+*{box-sizing:border-box}body{margin:0;background:var(--plum);color:var(--blush);font-family:Manrope,Helvetica,Arial,sans-serif;line-height:1.55}
+.w{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1{font-family:Italiana,Georgia,serif;font-weight:400;font-size:clamp(2rem,8vw,3rem);line-height:1.05;margin:.3em 0 .3em;text-transform:uppercase}
+.tag{display:inline-block;border:1px solid var(--rose);color:var(--pink);border-radius:99px;padding:4px 14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.tabs button{font:inherit;min-height:48px;padding:8px 16px;border-radius:99px;border:1px solid var(--rose);background:transparent;color:var(--blush);cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--rose);color:var(--plum);font-weight:600}
+.cmp{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:14px;border:1px solid rgba(244,164,192,.4);background:#150b15;touch-action:pan-y;user-select:none}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.lab{position:absolute;top:10px;padding:4px 12px;background:rgba(33,18,33,.85);border-radius:99px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--pink);z-index:2}
+.lab.l{left:10px}.lab.r{right:10px}
+.hd{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--pink);transform:translateX(-50%);pointer-events:none;z-index:2}
+.hd:after{content:"<>";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--rose);color:var(--plum);font-weight:700;display:flex;align-items:center;justify-content:center;letter-spacing:-2px}
+input[type=range]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;z-index:3}
+.cmp:focus-within{outline:3px solid var(--pink);outline-offset:2px}
+.cap{margin-top:14px}.note{font-size:.85rem;opacity:.85}
+</style></head><body><main class="w">
+<span class="tag">Studio concept</span>
+<h1>From brief to screen</h1>
+<p>Drag to compare an early stage of our process with the finished concept creative. These are the studio's own process graphics, not client work.</p>
+<div class="tabs" id="tabs" role="group" aria-label="Choose a comparison"></div>
+<div class="cmp" id="cmp">
+<img id="a" alt=""><img id="b" alt="">
+<span class="lab l" id="la"></span><span class="lab r" id="lb"></span><div class="hd" id="hd"></div>
+<input type="range" min="0" max="100" value="50" id="rg" aria-label="Comparison position">
+</div>
+<p class="cap" id="cap" aria-live="polite"></p>
+<p class="note">Concept work made by The Digital Dollhouse with Wixel. It shows how we work. It is not a client campaign and shows no client results.</p>
+</main>
+<script>
+var U={"2026-11-09-post-9-carousel-c-card-1.png":"https://links.wixel.com/link/Wl8JarsLg2/raw","2026-11-09-post-9-carousel-c-card-2.png":"https://links.wixel.com/link/Hzy8ZqJhQN/raw","2026-11-09-post-9-carousel-c-card-3.png":"https://links.wixel.com/link/Zny8azrb0S/raw","2026-11-09-post-9-carousel-c-card-5.png":"https://links.wixel.com/link/1NpPkWnUK0/raw"};
+var SETS=[
+{n:"Brief to final",a:["The brief","2026-11-09-post-9-carousel-c-card-2.png","A blank brief on a desk with swatches and pencils."],b:["The final creative","2026-11-09-post-9-carousel-c-card-5.png","A person before a large screen showing cinematic rose-toned creative."],c:"At one end, four questions: the idea, the scope, a rough budget and the timing. At the other, finished concept creative, with a person making the call at every stage."},
+{n:"Ideas to frames",a:["The ideas","2026-11-09-post-9-carousel-c-card-3.png","A person at a wall of pinned colour studies."],b:["The generated frames","2026-11-09-post-9-carousel-c-card-1.png","A contact sheet of dark rose-toned frames."],c:"Many directions are explored, then a person chooses which ones deserve to be made."}
+];
+var $=function(i){return document.getElementById(i)},cur=0;
+function set(k){cur=k;var s=SETS[k];$("a").src=U[s.a[1]];$("a").alt="Before: "+s.a[2];$("b").src=U[s.b[1]];$("b").alt="After: "+s.b[2];
+ $("la").textContent="Before: "+s.a[0];$("lb").textContent="After: "+s.b[0];$("cap").textContent=s.c;
+ [].forEach.call($("tabs").children,function(x,i){x.setAttribute("aria-pressed",i===k)});$("rg").value=50;pos(50)}
+function pos(v){$("b").style.clipPath="inset(0 0 0 "+v+"%)";$("hd").style.left=v+"%"}
+$("tabs").innerHTML=SETS.map(function(s,i){return '<button type="button">'+s.n+'</button>'}).join("");
+[].forEach.call($("tabs").children,function(b,i){b.onclick=function(){set(i)}});
+$("rg").addEventListener("input",function(){pos(+this.value)});
+set(0);
+</script></body></html>
