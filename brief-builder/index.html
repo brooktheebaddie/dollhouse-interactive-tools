@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brief builder | The Digital Dollhouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#211221;--p2:#2f1a30;--rose:#dc6e86;--pink:#f4a4c0;--blush:#fff4f6}
+*{box-sizing:border-box}body{margin:0;background:var(--plum);color:var(--blush);font-family:Manrope,Helvetica,Arial,sans-serif;line-height:1.55}
+.w{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+h1,h2{font-family:Italiana,Georgia,serif;font-weight:400;margin:0 0 .4em}h1{font-size:clamp(2rem,8vw,3rem);text-transform:uppercase;line-height:1.05}h2{font-size:1.5rem;color:var(--pink)}
+.tag{display:inline-block;border:1px solid var(--rose);color:var(--pink);border-radius:99px;padding:4px 14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.bar{height:6px;background:var(--p2);border-radius:9px;margin:16px 0 6px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--rose);transition:width .25s}
+.step{display:none}.step.on{display:block}
+label.t{display:block;margin:14px 0 4px;font-weight:600}.h{font-size:.88rem;opacity:.8;margin:0 0 6px}
+input[type=text],textarea,select{width:100%;font:inherit;color:var(--blush);background:var(--p2);border:1px solid rgba(244,164,192,.45);border-radius:10px;padding:12px;min-height:48px}
+textarea{min-height:100px}
+.chk{display:inline-flex;align-items:center;gap:8px;min-height:48px;margin:0 8px 8px 0;border:1px solid rgba(244,164,192,.45);border-radius:99px;padding:6px 16px;background:var(--p2);cursor:pointer}
+.chk input{accent-color:var(--rose);width:18px;height:18px}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.btn{font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;border:1px solid var(--rose);background:var(--rose);color:var(--plum);border-radius:99px;padding:12px 24px;min-height:48px;margin:18px 8px 0 0}.btn.g{background:transparent;color:var(--blush)}
+pre{white-space:pre-wrap;background:var(--p2);border:1px solid rgba(244,164,192,.3);border-radius:12px;padding:16px;font:inherit;font-size:.92rem}
+.note{font-size:.85rem;opacity:.85}[hidden]{display:none!important}
+</style></head><body><main class="w">
+<span class="tag">Free tool</span><h1>Brief builder</h1>
+<p>Answer a few plain questions. Get a tidy creative brief to keep, share with any team, or send to us. Rough answers are fine. Based on the Creative Brief Toolkit.</p>
+<div class="bar" aria-hidden="true"><i id="pb"></i></div><p class="note" id="pl" aria-live="polite"></p>
+<form id="f" onsubmit="return false">
+<section class="step on"><h2>1. The basics</h2>
+<label class="t" for="name">Project name</label><input type="text" id="name">
+<label class="t" for="who">Your name and role</label><input type="text" id="who" autocomplete="name">
+<label class="t" for="brand">Brand name</label><input type="text" id="brand" autocomplete="organization">
+<label class="t" for="what">What does your brand do, in one sentence?</label><textarea id="what"></textarea></section>
+<section class="step"><h2>2. Goal and audience</h2>
+<label class="t" for="goal">What is the main goal?</label><select id="goal"><option>Awareness (more people know us)</option><option>Consideration (people look closer)</option><option>Sales or sign-ups</option><option>Launch a new product or service</option><option>Rebrand or refresh</option><option>Event or seasonal moment</option><option>Other</option></select>
+<label class="t" for="change">After this, I want people to...</label><textarea id="change"></textarea>
+<label class="t" for="msg">The one message to remember</label><input type="text" id="msg">
+<label class="t" for="aud">Who is it for? Describe one real person.</label><textarea id="aud"></textarea></section>
+<section class="step"><h2>3. What you need made</h2>
+<p class="h">Tick all that apply.</p><div id="dl"></div>
+<label class="t" for="dlx">List each deliverable: what, how many, length or size, where it runs</label><textarea id="dlx"></textarea>
+<p class="h">Where will it run?</p><div id="ch"></div>
+<label class="t" for="ai">Are you comfortable with AI in the work?</label><select id="ai"><option>Yes, AI-led is fine</option><option>Yes, but only for some parts</option><option>No, traditional methods only</option><option>Not sure, please advise</option></select></section>
+<section class="step"><h2>4. Budget, timing and look</h2>
+<label class="t" for="bud">Your budget range</label><select id="bud"><option>Not decided yet</option><option>Under 1,000 pounds</option><option>1,000 to 5,000 pounds</option><option>5,000 to 15,000 pounds</option><option>15,000 to 50,000 pounds</option><option>50,000 pounds or more</option><option>I would like advice on what is realistic</option></select>
+<label class="t" for="when">When should it launch?</label><input type="text" id="when">
+<p class="h" style="margin-top:14px">How should it feel? Tick up to four.</p><div id="feel"></div>
+<label class="t" for="refs">One thing you love and one to avoid</label><textarea id="refs"></textarea></section>
+<section class="step"><h2>5. Approvals and extras</h2>
+<label class="t" for="appr">Who gives the final yes?</label><input type="text" id="appr">
+<label class="t" for="use">Where and how long will the work be used?</label><input type="text" id="use">
+<label class="t" for="more">Anything else worth knowing?</label><textarea id="more"></textarea></section>
+<section class="step" id="res"><h2>Your brief</h2><pre id="out"></pre>
+<button type="button" class="btn" id="copy">Copy brief</button><button type="button" class="btn g" id="dlb">Download as text</button>
+<a class="btn g" id="send" href="#" target="_top" rel="noopener">Send it to the studio</a>
+<p class="note" id="st" role="status"></p>
+<p class="note">Nothing you type here is stored or sent anywhere. Questions: +44 7378 802 114.</p></section>
+</form>
+<div><button type="button" class="btn g" id="back">Back</button><button type="button" class="btn" id="next">Next</button></div>
+</main>
+<script>
+var START_URL="https://www.thedigitaldollhouse.co.uk/services-1";
+var $=function(i){return document.getElementById(i)};
+function boxes(id,list,max){$(id).innerHTML=list.map(function(v){return '<label class="chk"><input type="checkbox" name="'+id+'" value="'+v+'">'+v+'</label>'}).join("");
+ if(max)$(id).addEventListener("change",function(e){var c=$(id).querySelectorAll("input:checked");if(c.length>max)e.target.checked=false})}
+boxes("dl",["Still images","Short videos","Social posts","Stories or Reels","Campaign film","Website graphics","Product images","Animation","Copywriting","Not sure"]);
+boxes("ch",["Instagram","TikTok","Facebook","LinkedIn","YouTube","Website","Email","Paid ads","Print","Not sure"]);
+boxes("feel",["Elegant","Playful","Bold","Calm","Luxurious","Minimal","Warm","Edgy","Natural","Futuristic"],4);
+$("send").href=START_URL;
+var steps=[].slice.call(document.querySelectorAll(".step")),n=0;
+function v(i){return $(i).value.trim()||"Not given"}
+function ch(id){var a=[].map.call($(id).querySelectorAll("input:checked"),function(x){return x.value});return a.length?a.join(", "):"Not stated"}
+function brief(){return ["CREATIVE BRIEF","Project: "+v("name"),"Prepared by: "+v("who"),"Brand: "+v("brand"),"What the brand does: "+v("what"),"",
+"OBJECTIVE","Main goal: "+$("goal").value,"After this, people should: "+v("change"),"Single message: "+v("msg"),"Audience: "+v("aud"),"",
+"DELIVERABLES","Types: "+ch("dl"),"Detail: "+v("dlx"),"Channels: "+ch("ch"),"AI in the work: "+$("ai").value,"",
+"BUDGET AND TIMING","Budget range: "+$("bud").value,"Launch: "+v("when"),"",
+"LOOK AND FEEL","Feel: "+ch("feel"),"Love / avoid: "+v("refs"),"",
+"USAGE AND APPROVAL","Usage: "+v("use"),"Final yes: "+v("appr"),"Anything else: "+v("more"),"","Illustrative planning brief. Scope, usage rights and prices are confirmed in a written proposal."].join("\n")}
+function show(k){n=k;steps.forEach(function(s,i){s.classList.toggle("on",i===k)});
+ $("pb").style.width=((k+1)/steps.length*100)+"%";$("pl").textContent=k<steps.length-1?"Step "+(k+1)+" of "+(steps.length-1):"Done";
+ $("back").hidden=k===0;$("next").hidden=k===steps.length-1;$("next").textContent=k===steps.length-2?"Build my brief":"Next";
+ if(k===steps.length-1)$("out").textContent=brief();window.scrollTo(0,0)}
+$("next").onclick=function(){show(n+1)};$("back").onclick=function(){show(n-1)};
+$("copy").onclick=function(){var t=brief();function ok(){$("st").textContent="Brief copied."}function no(){var r=document.createRange();r.selectNodeContents($("out"));var s=getSelection();s.removeAllRanges();s.addRange(r);$("st").textContent="Brief selected. Copy it now."}
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,no);else no()};
+$("dlb").onclick=function(){var a=document.createElement("a");a.href="data:text/plain;charset=utf-8,"+encodeURIComponent(brief());a.download="creative-brief.txt";document.body.appendChild(a);a.click();a.remove()};
+show(0);
+</script></body></html>
